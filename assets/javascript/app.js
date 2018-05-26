@@ -42,6 +42,11 @@ $(document).ready(function(){
 //========================================================================================================================
 // FUNCTIONS
 //========================================================================================================================
+function splitString(string, separator) {
+    var stringToArray = string.split(separator);
+    var joinedString = stringToArray.join('-');
+    return joinedString;
+}
 
 function searchableString(string, separator) {
     var stringToArray = string.split(separator);
@@ -150,9 +155,41 @@ function searchableString(string, separator) {
 
     });
 
-    // =====================
-    // || SEARCH FUNCTION ||
-    // =====================
+$("#searchButton").on("click", function(event) {
+    event.preventDefault();
+
+    var rawSearch = $("#autocomplete-input").val().trim();
+    var search = splitString(rawSearch, ' ');
+    console.log(search);
+
+   //getting 403 error from calling this link
+    var queryURL2 = 'https://api.seatgeek.com/2/events?performers.slug=' + search + '&client_id=MTE2OTc1MDh8MTUyNzEzODIxMC42Mw';
+    $.ajax({
+        url: queryURL2,
+        method: "GET"
+    }).then(function(responseSearch) { 
+        console.log(responseSearch);
+        // var result2 = responseSearch;
+        
+        
+        });
+
+
+$('#').click(function() {
+        event.preventDefault();
+
+        var queryLocal = 'https://api.seatgeek.com/2/events?geoip=true&client_id=MTE2OTc1MDh8MTUyNzEzODIxMC42Mw'
+        $.ajax({
+            url: queryLocal,
+            method: 'GET'
+        }).then(function(responseLocal) {
+            console.log(responseLocal);
+        })
+
+    });
+});
+
+      
 
     // will have to look into getting the search bar functioning with searh lables to have this work
     $("#searchButton").on("click", function(event) {
